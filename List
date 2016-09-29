@@ -7,13 +7,19 @@ int main()
 {
     List a;
     for(int i=0; i<20;i++)
-    { int  x=rand()/10000000;
-       int y=rand()/10000000;
-        add_List(&a,x,y);
+    { int  b=rand()/10000000;
+       int c=rand()/10000000;
+        add_List(&a,b,c);
     }
-    int x,y;
-    cout<<"find";
-    cin>>x>>y;
+    int b,c;
+    int k=10;
+    cout<<"add ";
+    cin>>b>>c;
+    add_element(&a,b,c,k);
+    print(&a);
+    find_last(&a,b,c);
+    delete_element(&a,k);
+    cout<<" ";
+    print(&a);
     return 0;
-
 }
