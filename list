@@ -10,6 +10,7 @@ struct List
 {
     Node *head=NULL;
     Node *tail=NULL;
+    int n=0;
 };
 void add_List(List * list, int x, int y)
 {
@@ -17,7 +18,7 @@ void add_List(List * list, int x, int y)
     temp->next = NULL;
     temp->x = x;
     temp->y = y;
-
+    list->n++;
     if (list->head != NULL)
     {
         temp->prev = list->tail;
@@ -39,4 +40,67 @@ void print( List * list )
         cout << temp->x <<" "<<temp->y<<" "<<std::endl;
         temp = temp->next;
     }
+}
+void find_first(List * list,int b,int c)
+{
+    Node * temp = list->head;
+    int i=1;
+    while (temp!=NULL)
+    {
+        int x = temp->x;
+        int y = temp->y;
+        if ((x==b) and(y==c))
+        {
+            cout<<i;
+            break;
+        }
+        temp = temp->next;
+        i++;
+    }
+
+}
+void find_last(List * list,int b,int c)
+{
+    Node * temp = list->tail;
+    int i=list->n;
+    while (temp!=NULL)
+    {
+        int x = temp->x;
+        int y = temp->y;
+        if ((x==b) and(y==c))
+        {
+            cout<<i;
+            break;
+        }
+        temp = temp->prev;
+        i--;
+    }
+
+}
+void add_element(List * list,int b,int c, int k)
+{
+    Node * temp = list->head;
+    for(int i=1;i<k-1;i++)
+        temp = temp->next;
+    Node * temp1= temp->next;
+    Node * new_node=new Node;
+    new_node->x=b;
+    new_node->y=c;
+    new_node->next=temp1;
+    new_node->prev=temp;
+    temp->next=new_node;
+    temp1->prev=new_node;
+    list->n++;
+}
+void delete_element(List * list, int k)
+{
+    Node * temp = list->head;
+    for(int i=1;i<k;i++)
+        temp = temp->next;
+    Node * nexttemp= temp->next;
+    Node * prevtemp=temp->prev;
+    nexttemp->prev=prevtemp;
+    prevtemp->next=nexttemp;
+    delete(temp);
+    list->n--;
 }
