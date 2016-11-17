@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
-template<typename T,int buffersize>
+template<typename T>
 class CircularBuffer
 {
 public:
-    CircularBuffer(buffersize  )
+    CircularBuffer( int size)
     {
         head = tail = 0;
+        arr.reserve(size);
+
     }
     // Добавить элемент
     ~CircularBuffer(){
@@ -14,7 +16,7 @@ public:
     }
     void put( const int & value )
     {
-        if ( tail == buffersize )
+        if ( tail == arr.size() )
         {
             tail = 0;
         }
@@ -25,31 +27,34 @@ public:
     // Извлечь последний элемент
     int & pop()
     {
-        if ( head == buffersize) {
+        if ( head == arr.size()) {
             head = 0;
         }
         int & elem = arr[head];
+        arr.erase(arr.begin());
+        arr.resize(arr.size()-1);
         ++head;
         return elem;
+
     }
     // Кол-во элементов в буфере
     size_t size() const
     {
-        return tail;
+        
     }
 
     // Ёмкость буфера
     size_t capacity() const
     {
-        return buffersize;
+        return arr.size();
     }
     int operatorr(const int  i )
     {
         return arr[i];
     }
     void PrintBuffer(){
-        std::cout<<head<<tail;
-        for(int i=head; i<=tail;i++)
+        std::cout<<head<<" "<<tail<<" ";
+        for(int i=head; i<=tail;++i)
             std::cout<<arr[i]<<" ";
         std::cout<<std::endl;
     }
@@ -60,16 +65,18 @@ private:
 };
 int main()
 {
-    CircularBuffer <int,3>buf;
-    buf.PrintBuffer();
+    CircularBuffer <int>buf(3);
     for( int i = 0; i < 10; ++i )
     {
         buf.put( i * 2 );
+        std::cout<<buf.capacity()<<' '<<buf.size()<<std::endl;
         if ( buf.size() == buf.capacity() ) {
             std::cout << "---------------" << std::endl;
             while( buf.size() ) {
-                std::cout << buf.pop() << std::endl;
                 buf.PrintBuffer();
+                std::cout<<buf.size()<<std::endl;
+                std::cout << buf.pop() << std::endl;
+
             }
         }
 
