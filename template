@@ -1,0 +1,28 @@
+#include <iostream>
+template<int Lenght, int Mass, int Time, int Current, int Temperature, int Kandel,  int Quantity>
+class DimQ
+{
+    double A;
+    DimQ(int lenght, int mass, int time, int current, int temperature, int kandel, double  a, int quantity){
+        Lenght=lenght;
+        Mass=mass;
+        Temperature=temperature;
+        Time=time;
+        Kandel=kandel;
+        Quantity=quantity;
+        A=a;
+    }
+};
+typedef DimQ<1,0,0,0,0,0,0>Lenght;
+typedef DimQ<1,0-1,0,0,0,0>Speed;
+typedef DimQ<1,0,-2,0,0,0,0>Acceleration;
+typedef DimQ<0,0,0,0,0,0,0>Dimensionless_quantities;
+typedef DimQ<0,0,1,0,0,0,0>Time;
+typedef DimQ<0,1,0,0,0,0,0>Mass;
+typedef DimQ<0,0,0,1,0,0,0>Current;
+typedef DimQ<0,0,0,0,1,0,0>Temperature;
+typedef DimQ<0,0,0,0,0,1,0>Kandel;
+typedef DimQ<0,0,0,0,0,0,1>Quantity;
+
+
+
