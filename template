@@ -1,28 +1,91 @@
 #include <iostream>
-template<int Lenght, int Mass, int Time, int Current, int Temperature, int Kandel,  int Quantity>
-class DimQ
-{
-    double A;
-    DimQ(int lenght, int mass, int time, int current, int temperature, int kandel, double  a, int quantity){
-        Lenght=lenght;
-        Mass=mass;
-        Temperature=temperature;
-        Time=time;
-        Kandel=kandel;
-        Quantity=quantity;
-        A=a;
-    }
-};
-typedef DimQ<1,0,0,0,0,0,0>Lenght;
-typedef DimQ<1,0-1,0,0,0,0>Speed;
-typedef DimQ<1,0,-2,0,0,0,0>Acceleration;
-typedef DimQ<0,0,0,0,0,0,0>Dimensionless_quantities;
-typedef DimQ<0,0,1,0,0,0,0>Time;
-typedef DimQ<0,1,0,0,0,0,0>Mass;
-typedef DimQ<0,0,0,1,0,0,0>Current;
-typedef DimQ<0,0,0,0,1,0,0>Temperature;
-typedef DimQ<0,0,0,0,0,1,0>Kandel;
-typedef DimQ<0,0,0,0,0,0,1>Quantity;
-
-
-
+using namespace std;
+template<int lenght, int mass, int time, int current, int temperature, int kandel, int quantity>
+class DimQ{
+public:
+	double A;
+	DimQ ( double  a ) {
+		A = a;
+	}
+	DimQ < lenght, mass, time, current, temperature, kandel, quantity>operator-() {
+		return DimQ< lenght, mass, time, current, temperature, kandel, quantity>(-A);
+	}
+	DimQ < lenght, mass, time, current, temperature, kandel, quantity>operator+(const DimQ< lenght, mass, time, current, temperature, kandel, quantity> &other) {
+		double newA = A + other.A;
+		return DimQ< lenght, mass, time, current, temperature, kandel, quantity>(newA);
+	}
+	template<int lenght1, int mass1, int time1, int current1, int temperature1, int kandel1, int quantity1>
+	DimQ< lenght1 + lenght, mass1 + mass, time1 + time, current1 + current, temperature1 + temperature, kandel1 + kandel, quantity1 + quantity> operator *(DimQ< lenght1,  mass1,  time1,  current1, temperature1, kandel1,  quantity1> &other)
+	{
+		return DimQ< lenght1+lenght,  mass1+mass,  time1+time, current1+current,  temperature1+temperature, kandel1+kandel,  quantity1+quantity>(A*other.A)
+	}
+	DimQ< lenght1 - lenght, mass1 - mass, time1 - time, current1 - current, temperature1 - temperature, kandel1 - kandel, quantity1 - quantity> operator /(DimQ< lenght, mass, time, current, temperature, kandel, quantity> &other)
+	{
+		return DimQ< lenght1 - lenght, mass1 - mass, time1 - time, current1 - current, temperature1 - temperature, kandel1 - kandel, quantity1 - quantity>(A / other.A)
+	}
+   ostream & operator<<(ostream& cout, DimQ < lenght, mass, time, current, temperature, kandel, quantity>& a) {
+			cout << A << ' ';
+			if (lenght = 1) {
+				cout << "m";
+			}
+			else if (lenght != 0) {
+				cout << "m^(" << lenght << ')';
+			}
+			if (mass = 1) {
+				cout << "kg";
+			}
+			else if (mass != 0) {
+				cout << "kg^(" << mass << ')';
+			}
+			if (time = 1) {
+				cout << "s";
+			}
+			else if (time != 0) {
+				cout << "s^(" << time << ')';
+			}
+			if (current = 1) {
+				cout << "A";
+			}
+			else if (current != 0) {
+				cout << "A^(" << current << ')';
+			}
+			if (temperature = 1) {
+				cout << "C";
+			}
+			else if (temperature != 0) {
+				cout << "C^(" << temperature << ')';
+			}
+			if (kandel = 1) {
+				cout << "k";
+			}
+			else if (kandel != 0) {
+				cout << "k^(" << kandel << ')';
+			}
+			if (quantity = 1) {
+				cout << "M";
+			}
+			else if (quantity != 0) {
+				cout << "M^(" << quantity << ')';
+			}
+			cout << endl;
+			return cout;
+		};
+	};
+typedef DimQ<1, 0, 0, 0, 0, 0, 0>Lenght;
+typedef DimQ<1, 0, -1, 0, 0, 0, 0>Speed;
+typedef DimQ<1, 0, -2, 0, 0, 0, 0>Acceleration;
+typedef DimQ<0, 0, 0, 0, 0, 0, 0>Dimensionless_quantities;
+typedef DimQ<0, 0, 1, 0, 0, 0, 0>Time;
+typedef DimQ<0, 1, 0, 0, 0, 0, 0>Mass;
+typedef DimQ<0, 0, 0, 1, 0, 0, 0>Current;
+typedef DimQ<0, 0, 0, 0, 1, 0, 0>Temperature;
+typedef DimQ<0, 0, 0, 0, 0, 1, 0>Kandel;
+typedef DimQ<0, 0, 0, 0, 0, 0, 1>Quantity;
+int main(){
+	Speed v = { 10 };
+	Time t = { 10 };
+	Lenght l = v * t;
+	Speed v1 = { 2 };
+	Speed v2 = v1 + v;
+	cout << v;
+}
