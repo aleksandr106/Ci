@@ -1,0 +1,58 @@
+#include <iostream>
+#include<fstream>
+#include<vector>
+#include<string>
+using namespace std;
+class wikigraph {
+public:
+	int article; //количество статей
+	int link;//количество рёбер
+	vector<int>edges; //список ссылок
+	vector<int>offset;// список количества ссылок
+	vector<string>titles;//список названий статей
+	vector<int>size;// список размеров статей
+	vector<int>redict;//список перенаправлений
+	wikigraph(string s) {
+		ifstream fin(s);
+		fin >> article >> link;
+		offset.push_back(0);
+		for (int i = 0; i < article; ++i) {
+			string Title;
+			fin >> Title;
+			titles.push_back(Title);
+			int Size, Redict, Edges;
+			fin >> Size >> Redict >> Edges;
+			size.push_back(Size);
+			redict.push_back(Redict);
+			offset.push_back(Edges + offset[i]);
+			for (int j = 0; j < Edges; ++j) {
+				int ssilka;
+				fin >> ssilka;
+				edges.push_back(ssilka);
+			}
+		}
+	}
+	int get_number_of_links(int id) {
+		return offset[id] - offset[id - 1];
+	}
+	int get_size(int id) {
+		return size[id - 1];
+	}
+	string get_title(int id) {
+		return titles[id - 1];
+	}
+	int get_number_of_redicts(int id) {
+		return redict[id - 1];
+	}
+	int get_id(string Title) {
+		int id = -1;
+		for (int i = 0; i < article; ++i) {
+			if (titles[i] == Title){
+				id = i; }
+		}
+		return id;
+	}
+};
+int main() {
+	wikigraph wg("TextFile.txt");
+}
